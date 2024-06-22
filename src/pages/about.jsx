@@ -1,7 +1,7 @@
 // import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Card, Row, Col, Button, Typography, Input, Form } from 'antd';
-// import axios from 'axios';
+import { Card, Row, Col, Button, Typography, Input, Form, message } from 'antd';
+import axios from 'axios';
 
 const { Title, Text } = Typography;
 
@@ -15,39 +15,29 @@ function About() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    // 假设从后端获取用户数据
-    // const fetchUserData = async () => {
-    //   try {
-    //     const response = await axios.get('/api/user/profile');
-    //     setUser(response.data);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     console.error("Error fetching user data", error);
-    //   }
-    // };
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/user/profile');
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching user data', error);
+      }
+    };
 
-    // 使用 Mock 数据代替真实 API 调用
-    setTimeout(() => {
-      setUser({
-        userName: '赵振',
-        email: '245570565@qq.com',
-        phone: '18888888888',
-      });
-      setLoading(false);
-    }, 1000);
-
-    // fetchUserData();
+    fetchUserData();
   }, []);
 
-  const handleSave = (values) => {
-    setUser(values);
-    setEditMode(false);
-    // 你可以在这里调用后端 API 来保存更改
-    // axios.post('/api/user/profile', values).then(response => {
-    //   console.log('Profile updated');
-    // }).catch(error => {
-    //   console.error('Error updating profile', error);
-    // });
+  const handleSave = async (values) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/user/profile', values);
+      setUser(response.data);
+      setEditMode(false);
+      message.success('Profile updated successfully');
+    } catch (error) {
+      console.error('Error updating profile', error);
+      message.error('Failed to update profile');
+    }
   };
 
   if (loading) {
