@@ -7,7 +7,7 @@ const { Title, Text } = Typography;
 
 function About() {
   const [user, setUser] = useState({
-    userName: '',
+    username: '',
     email: '',
     phone: '',
   });
@@ -33,10 +33,10 @@ function About() {
       const response = await axios.post('http://localhost:5000/api/user/profile', values);
       setUser(response.data);
       setEditMode(false);
-      message.success('Profile updated successfully');
+      message.success('更新成功！');
     } catch (error) {
-      console.error('Error updating profile', error);
-      message.error('Failed to update profile');
+      console.error('更新出错！', error);
+      message.error('更新出错！');
     }
   };
 
@@ -52,7 +52,7 @@ function About() {
           {!editMode ? (
             <>
               <p>
-                <Text strong>用户名:</Text> {user.userName}
+                <Text strong>用户名:</Text> {user.username}
               </p>
               <p>
                 <Text strong>邮箱:</Text> {user.email}
@@ -66,7 +66,7 @@ function About() {
             </>
           ) : (
             <Form layout="vertical" initialValues={user} onFinish={handleSave}>
-              <Form.Item name="userName" label="用户名" rules={[{ required: true, message: '请填写用户名' }]}>
+              <Form.Item name="username" label="用户名" rules={[{ required: true, message: '请填写用户名' }]}>
                 <Input />
               </Form.Item>
               <Form.Item name="email" label="邮箱" rules={[{ required: true, type: 'email', message: '请填写邮箱' }]}>
