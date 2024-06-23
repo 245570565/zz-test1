@@ -21,7 +21,7 @@ function About() {
         setUser(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching user data', error);
+        console.error(error);
       }
     };
 
